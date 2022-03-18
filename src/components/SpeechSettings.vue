@@ -6,7 +6,7 @@
         v-model="selectedVoice"
         :options="voices"
         label="select voice"
-        @input-value="setVoice"
+        @update:model-value="setVoice"
       >
         <template v-slot:prepend>
           <q-icon name="record_voice_over_icon" />
@@ -15,8 +15,10 @@
       <q-badge label="rate" />
       <q-slider
         v-model="rate"
+        @change="setRate"
         :min="0.25"
         :max="2"
+        :step="0.25"
         label
         label-always
         color="light-green"
@@ -30,36 +32,46 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useDialogPluginComponent } from "quasar";
-
-const emits = defineEmits([
-  // REQUIRED; need to specify some events that your
-  // component will emit through useDialogPluginComponent()
-  ...useDialogPluginComponent.emits,
-]);
+import { ref, onMounted, watchEffect } from "vue";
+import { useQuasar, useDialogPluginComponent } from "quasar";
+import { useStore } from "vuex";
+const emits = defineEmits([...useDialogPluginComponent.emits]);
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
   useDialogPluginComponent();
 const onOKClick = () => {
-  // on OK, it is REQUIRED to
-  // call onDialogOK (with optional payload)
   onDialogOK();
-  // or with payload: onDialogOK({ ... })
-  // ...and it will also hide the dialog automatically
 };
 
+const $q = useQuasar();
+const $store = useStore();
+
 const voices = ref([]);
-const selectedVoice = ref(null);
-const rate = ref(1);
+const selectedVoice = ref($store.state.voice);
+const rate = ref($store.state.rate);
 const setVoice = () => {
-  console.log("setting");
+  console.log("setting voice to", selectedVoice.value);
+  $store.commit("updateVoice", selectedVoice.value);
 };
+const setRate = () => {
+  $store.commit("updateRate", rate.value);
+};
+// watchEffect(() => {
+
+//   $q.localStorage.set("rate", rate.value);
+//   $q.localStorage.set("voice", selectedVoice.value);
+
+//   console.log($q.localStorage.getItem("rate"));
+//   console.log($q.localStorage.getItem("voice"));
+// });
 onMounted(() => {
+  selectedVoice.value = $q.localStorage.getItem("voice");
+  rate.value = $q.localStorage.getItem("rate");
+
   voices.value = speechSynthesis.getVoices();
   setTimeout(() => {
     voices.value = speechSynthesis.getVoices().map((voice) => {
-      return { label: voice.name, value: voice.name, lang: voice.lang };
+      return Object.assign(voice, { label: voice.name, value: voice.name });
     });
     console.log(voices.value);
   }, 1000);
