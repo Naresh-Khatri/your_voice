@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, watchEffect, computed } from "vue";
 import { useQuasar, useDialogPluginComponent } from "quasar";
 import { useStore } from "vuex";
 const emits = defineEmits([...useDialogPluginComponent.emits]);
@@ -46,7 +46,7 @@ const onOKClick = () => {
 const $q = useQuasar();
 const $store = useStore();
 
-const voices = ref([]);
+const voices = computed(() => $store.state.voices);
 const selectedVoice = ref($store.state.voice);
 const rate = ref($store.state.rate);
 const setVoice = () => {
@@ -64,18 +64,7 @@ const setRate = () => {
 //   console.log($q.localStorage.getItem("rate"));
 //   console.log($q.localStorage.getItem("voice"));
 // });
-onMounted(() => {
-  selectedVoice.value = $q.localStorage.getItem("voice");
-  rate.value = $q.localStorage.getItem("rate");
-
-  voices.value = speechSynthesis.getVoices();
-  setTimeout(() => {
-    voices.value = speechSynthesis.getVoices().map((voice) => {
-      return Object.assign(voice, { label: voice.name, value: voice.name });
-    });
-    console.log(voices.value);
-  }, 1000);
-});
+onMounted(() => {});
 
 const onCancelClick = onDialogCancel;
 </script>
