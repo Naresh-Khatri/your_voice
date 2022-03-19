@@ -10,27 +10,52 @@
     />
     <q-input
       v-model="text"
+      placeholder="Type something to speak"
       rounded
       outlined
       clearable
       type="textarea"
       style="width: 90vw"
     />
-    <q-btn
-      class="q-pa-md q-px-xl q-my-md"
-      color="primary"
-      label="speak"
-      rounded
-      icon="speaker"
-    />
-    <q-card-section class="q-mx-lg">
-      <SpeakCard
-        class="q-mb-lg"
-        v-for="(text, i) in texts"
-        :key="i"
-        :text="text"
-        :id="i"
+    <div>
+      <q-btn
+        class="q-pa-md q-px-xl q-my-md"
+        color="primary"
+        label="speak"
+        rounded
+        icon="speaker"
+        @click="speakText"
       />
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <q-btn
+          v-if="text"
+          class="q-pa-md q-px-md q-my-md"
+          color="positive"
+          label="add"
+          rounded
+          icon="add"
+          @click="saveText"
+        />
+      </transition>
+    </div>
+    <q-card-section class="q-mx-" style="width: 100vw">
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <SpeakCard
+          class="q-mb-lg"
+          v-for="i in savedTexts.length"
+          :key="i"
+          :text="savedTexts[savedTexts.length - i]"
+          :id="savedTexts.length - i"
+        />
+      </transition-group>
     </q-card-section>
   </q-page>
 </template>
@@ -38,30 +63,46 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useQuasar } from "quasar";
+import { useStore } from "vuex";
 import SpeakCard from "../components/SpeakCard.vue";
 import SpeechSettings from "../components/SpeechSettings.vue";
-
-const texts = [
-  "His ultimate dream fantasy consisted of being content and sleeping eight hours in a row.",
-  "He decided to fake his disappearance to avoid jail.",
-  "There were white out conditions in the town; subsequently, the roads were impassable.",
-  "She wasn't sure whether to be impressed or concerned that he folded underwear in neat little packages.",
-  "There is no better feeling than staring at a wall with closed eyes.",
-  "Tomorrow will bring something new, so leave today as a memory.",
-  "Nobody has encountered an explosive daisy and lived to tell the tale.",
-];
+import { speak } from "../utils/speak.js";
 
 const $q = useQuasar();
+const $store = useStore();
+
+const savedTexts = computed(() => $store.state.savedTexts);
 const text = ref("");
 
 onMounted(() => {
+  // showDialog();
+  // $q.localStorage.set('savedTexts', null)
+  $store.dispatch("populateVoiceList");
+  $store.dispatch("getSavedTexts");
+});
+
+const speakText = () => {
+  // speak(text.value);
+  const utterance = new SpeechSynthesisUtterance();
+  utterance.text = text.value;
+  utterance.voice = $store.state.voice || speechSynthesis.getVoices()[0];
+  utterance.rate = $store.state.rate;
+  // console.log($store.state);
+  speechSynthesis.speak(utterance);
+};
+
+const saveText = () => {
+  $store.commit("addText", text.value);
+};
+
+const showDialog = () => {
   $q.dialog({
     component: SpeechSettings,
   })
     .onOk(() => {})
     .onCancel(() => {})
     .onDismiss(() => {});
-});
+};
 </script>
 <style>
 .background {
