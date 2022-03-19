@@ -1,23 +1,43 @@
 <template>
-  <div
-    class="flex items-center shadow-6 row container q-pa-md q-py-lg text-white"
+  <q-slide-item
+    @left="onLeftSlide"
+    style="border-radius: 25px"
+    class="bg-transparent"
+    left-color="red"
   >
-    <div class="col-10 text-bold text-h6">
-      {{ props.text }}
-    </div>
-    <div class="col-2">
-      <q-btn
-        icon="play_arrow"
-        color="white"
-        class="text-black"
-        round
-        @click="speak"
+    <template v-slot:left>
+      <!-- <q-icon name="done" /> -->
+      Removing in
+      <q-knob
+        class="q-mx-lg"
+        show-value
+        :max="3000"
+        :model-value="timer"
+        size="md"
       />
+      <q-btn label="undo" icon="undo" @click="undoRemoval" />
+    </template>
+    <div
+      class="flex items-center shadow-6 row container q-pa-md q-py-lg text-white"
+    >
+      <div class="col-10 text-bold text-h6">
+        <!-- {{ props.id }} -->
+        {{ props.text }}
+      </div>
+      <div class="col-2">
+        <q-btn
+          icon="play_arrow"
+          color="white"
+          class="text-black"
+          round
+          @click="speak"
+        />
+      </div>
     </div>
-  </div>
+  </q-slide-item>
 </template>
 <script setup>
-import { ref, onMounted, useSlots } from "vue";
+import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 
@@ -38,10 +58,40 @@ const speak = () => {
   utterance.voice = $store.state.voice || speechSynthesis.getVoices()[props.id];
   // utterance.voice = speechSynthesis.getVoices()[props.id];
   utterance.rate = $store.state.rate;
-  console.log(utterance);
-  console.log(speechSynthesis);
-  console.log(speechSynthesis.getVoices());
+  console.log($store.state);
+  // console.log(utterance);
+  // console.log(speechSynthesis);
+  // console.log(speechSynthesis.getVoices());
   speechSynthesis.speak(utterance);
+};
+
+const timer = ref(3000);
+const interval = ref(null);
+
+let resetFn = null;
+//get reset funtion to set initial slide position
+const onLeftSlide = ({ reset }) => {
+  resetFn = reset;
+  interval.value = setInterval(() => {
+    timer.value -= 100;
+    if (timer.value <= 0) {
+      clearInterval(interval.value);
+      timer.value = 3000;
+      $store.commit("removeText", props.id);
+      $q.notify({
+        message: "Text removed!👀",
+        color: "warn",
+        icon: "warn",
+      });
+      resetFn();
+    }
+  }, 100);
+};
+
+const undoRemoval = () => {
+  clearInterval(interval.value);
+  timer.value = 3000;
+  resetFn();
 };
 </script>
 <style>
