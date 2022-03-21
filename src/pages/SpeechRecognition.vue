@@ -56,28 +56,33 @@ const isListening = ref(false);
 const speechRecognition = new webkitSpeechRecognition();
 speechRecognition.continuous = true;
 speechRecognition.interimResults = true;
+const animationTimer = ref(null);
 
 onMounted(() => {
-  setInterval(() => {
-    document.querySelector(
-      ".btn-container"
-    ).style.borderRadius = `${getRandomNum(50, 90)}% ${getRandomNum(
-      50,
-      90
-    )}% ${getRandomNum(50, 90)}% ${getRandomNum(50, 90)}% / ${getRandomNum(
-      50,
-      90
-    )}% ${getRandomNum(50, 90)}% ${getRandomNum(50, 90)}% ${getRandomNum(
-      50,
-      90
-    )}%`;
-  }, 1000);
+  document.querySelector(".btn-container").style.borderRadius = "50%";
+
   speechRecognition.onstart = () => {
     console.log("started");
+    animationTimer.value = setInterval(() => {
+      document.querySelector(
+        ".btn-container"
+      ).style.borderRadius = `${getRandomNum(50, 90)}% ${getRandomNum(
+        50,
+        90
+      )}% ${getRandomNum(50, 90)}% ${getRandomNum(50, 90)}% / ${getRandomNum(
+        50,
+        90
+      )}% ${getRandomNum(50, 90)}% ${getRandomNum(50, 90)}% ${getRandomNum(
+        50,
+        90
+      )}%`;
+    }, 1000);
     isListening.value = true;
   };
   speechRecognition.onend = () => {
     console.log("ended");
+    clearInterval(animationTimer.value);
+    document.querySelector(".btn-container").style.borderRadius = "50%";
     isListening.value = false;
   };
   speechRecognition.onerror = (err) => {
@@ -96,7 +101,9 @@ const getRandomNum = (min, max) => {
 const toggleListening = () => {
   if (!isListening.value) {
     speechRecognition.start();
-  } else speechRecognition.stop();
+  } else {
+    speechRecognition.stop();
+  }
   isListening.value = !isListening.value;
 };
 const showResults = ({ results, resultIndex, timeStamp }) => {
@@ -130,11 +137,11 @@ input[type="textarea"] {
 }
 .btn-container {
   background: white;
-  border-radius: 70% 60% 50% 40% / 40% 50% 60% 70%;
+  /* border-radius: 70% 60% 50% 40% / 40% 50% 60% 70%; */
   transition: all 1s;
   /* animation: spin 12s linear infinite; */
 }
-@keyframes morph {
+/* @keyframes morph {
   0% {
     border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
   }
@@ -147,5 +154,5 @@ input[type="textarea"] {
   to {
     transform: rotate(1turn);
   }
-}
+} */
 </style>
