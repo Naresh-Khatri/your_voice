@@ -12,7 +12,7 @@
           <q-icon name="record_voice_over_icon" />
         </template>
       </q-select>
-      <q-badge label="rate" />
+      <q-badge label="rate" color="secondary" />
       <q-slider
         v-model="rate"
         @change="setRate"
@@ -21,11 +21,11 @@
         :step="0.25"
         label
         label-always
-        color="light-green"
+        color="secondary"
       />
       <q-card-actions align="right">
-        <q-btn color="primary" label="OK" @click="onOKClick" />
         <q-btn color="primary" label="Cancel" @click="onCancelClick" />
+        <q-btn color="primary" label="OK" @click="onOKClick" />
       </q-card-actions>
     </q-card>
   </q-dialog>

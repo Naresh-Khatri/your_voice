@@ -3,7 +3,7 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/Index.vue") },
+      { path: "", component: () => import("pages/HomePage.vue") },
       {
         path: "/recog",
         component: () => import("pages/SpeechRecognition.vue"),

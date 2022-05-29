@@ -1,6 +1,5 @@
 import { store } from "quasar/wrappers";
 import { createStore } from "vuex";
-import main from "./main";
 import { LocalStorage } from "quasar";
 
 // import example from './module-example'
@@ -24,13 +23,13 @@ export default store(function (/* { ssrContext } */) {
         savedTexts: [
           "మీ ఆరోగ్యం త్వరలో కుదుట పడాలని కోరుకుంటున్నాను",
           "మీరు(నువ్వు) ఆంగ్లం(ఆంగ్ల భాష) మాట్లాడగలరా(వా)?",
-          // "His ultimate dream fantasy consisted of being content and sleeping eight hours in a row.",
-          // "He decided to fake his disappearance to avoid jail.",
-          // "There were white out conditions in the town; subsequently, the roads were impassable.",
-          // "She wasn't sure whether to be impressed or concerned that he folded underwear in neat little packages.",
-          // "There is no better feeling than staring at a wall with closed eyes.",
-          // "Tomorrow will bring something new, so leave today as a memory.",
-          // "Nobody has encountered an explosive daisy and lived to tell the tale.",
+          "His ultimate dream fantasy consisted of being content and sleeping eight hours in a row.",
+          "He decided to fake his disappearance to avoid jail.",
+          "There were white out conditions in the town; subsequently, the roads were impassable.",
+          "She wasn't sure whether to be impressed or concerned that he folded underwear in neat little packages.",
+          "There is no better feeling than staring at a wall with closed eyes.",
+          "Tomorrow will bring something new, so leave today as a memory.",
+          "Nobody has encountered an explosive daisy and lived to tell the tale.",
         ],
       };
     },

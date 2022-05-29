@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 style="color: white">
+          your voice
+          <select name="voices" class="voice-selector-container"></select>
+        </h1>
+        <input type="range" id="volume" name="volume" min="0" max="1" /><label
+          for="volume"
+          >Volume</label
+        >
+        <input type="range" id="rate" name="rate" min="0.2" max="10" /><label
+          for="rate"
+          >Rate</label
+        >
+        <input type="range" id="pitch" name="pitch" min="0" max="2" /><label
+          for="pitch"
+          >Pitch</label
+        >
+        <div>
+
+            <input type='text' class="tile-input">
+            <button class="tile-add">Add</button>
+            <button class="tile-clear">clear all</button>
+        </div>
+      </div>
+      <div class="tiles-container"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
