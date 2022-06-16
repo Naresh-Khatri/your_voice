@@ -30,7 +30,7 @@ module.exports = configure(function (ctx) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v5',
+      "fontawesome-v5",
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -94,12 +94,12 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Dialog", "Dark", "Notify", "Screen"],
+      plugins: ["Dialog", "Dark", "Notify", "Screen", "LocalStorage"],
     },
 
-    // animations: 'all', // --- includes all animations
+    animations: "all", // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    // animations: ["bounceInDown", "bounceOutUp", "fadeIn", "fadeOut"],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
