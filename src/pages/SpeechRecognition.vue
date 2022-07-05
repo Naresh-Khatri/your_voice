@@ -1,8 +1,11 @@
 <template>
-  <q-page class="background flex flex-center">
+  <q-page class="background flex flex-center column page-padding">
     <!-- {{ interimText }}
     <br />
     {{ finalText }} -->
+    <!-- <div class="text-white">
+      {{ status }}
+    </div> -->
     <q-input
       v-model="finalText"
       placeholder="Your text appears here"
@@ -11,10 +14,10 @@
       outlined
       clearable
       type="textarea"
-      style="width: 90vw"
+      style="width: 90%"
     />
     <!-- <q-input type="textarea" style="width: 100%" v-model="finalText" /> -->
-    <div class="btn-container">
+    <div class="btn-container q-mt-md">
       <q-btn class="relative" flat round @click="toggleListening">
         <q-icon
           :color="isListening ? 'red' : 'dark'"
@@ -58,9 +61,15 @@ speechRecognition.continuous = true;
 speechRecognition.interimResults = true;
 const animationTimer = ref(null);
 
-onMounted(() => {
-  document.querySelector(".btn-container").style.borderRadius = "50%";
+const status = ref("");
 
+onMounted(() => {
+  //check if browser supports speech recognition
+  if (!("webkitSpeechRecognition" in window)) {
+    status.value = "Speech recognition not supported";
+    return;
+  }
+  document.querySelector(".btn-container").style.borderRadius = "50%";
   speechRecognition.onstart = () => {
     console.log("started");
     animationTimer.value = setInterval(() => {
@@ -80,6 +89,7 @@ onMounted(() => {
     isListening.value = true;
   };
   speechRecognition.onend = () => {
+    status.value = "ened";
     console.log("ended");
     clearInterval(animationTimer.value);
     document.querySelector(".btn-container").style.borderRadius = "50%";
@@ -88,9 +98,12 @@ onMounted(() => {
   speechRecognition.onerror = (err) => {
     console.log("Speech recognition error detected: " + err.error);
     console.log("Additional information: " + err.message);
+    // status.value = JSON.stringify(err);
   };
   speechRecognition.onresult = (e) => {
     // console.log(e);
+    // status.value = e;
+
     showResults(e);
   };
   // console.log(speechRecognition);
@@ -99,6 +112,7 @@ const getRandomNum = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 const toggleListening = () => {
+  status.value = "started listening";
   if (!isListening.value) {
     speechRecognition.start();
   } else {
