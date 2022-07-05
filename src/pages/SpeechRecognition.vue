@@ -1,11 +1,11 @@
 <template>
-  <q-page class="background flex flex-center column">
+  <q-page class="background flex flex-center column page-padding">
     <!-- {{ interimText }}
     <br />
     {{ finalText }} -->
-    <div class="text-white">
+    <!-- <div class="text-white">
       {{ status }}
-    </div>
+    </div> -->
     <q-input
       v-model="finalText"
       placeholder="Your text appears here"
@@ -14,10 +14,10 @@
       outlined
       clearable
       type="textarea"
-      style="width: 90vw"
+      style="width: 90%"
     />
     <!-- <q-input type="textarea" style="width: 100%" v-model="finalText" /> -->
-    <div class="btn-container">
+    <div class="btn-container q-mt-md">
       <q-btn class="relative" flat round @click="toggleListening">
         <q-icon
           :color="isListening ? 'red' : 'dark'"

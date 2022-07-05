@@ -1,13 +1,16 @@
 <template>
-  <q-page class="relative background flex column items-center q-pt-xl">
-    <q-btn
+  <q-page class="relative background flex column items-center q-pt-xl page-padding">
+    <div class="flex" style="width:100%; flex-direction: row-reverse;">
+
+      <q-btn
       icon="settings"
       round
       flat
       class="text-white"
-      style="position: absolute; top: 5px; right: 5vw"
+      style=""
       @click="showDialog"
     />
+    </div>
     <q-input
       v-model="text"
       placeholder="Type to speak"
@@ -15,7 +18,7 @@
       outlined
       clearable
       type="textarea"
-      style="width: 90vw"
+      style="width: 90%"
     />
     <div class="q-gutter-md q-my-md">
       <q-btn
@@ -42,7 +45,7 @@
         />
       </transition>
     </div>
-    <q-card-section class="q-mx-" style="width: 100vw">
+    <q-card-section class="q-mx-" style="width: 100%">
       <transition-group
         appear
         enter-active-class="animated fadeIn"
