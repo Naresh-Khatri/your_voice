@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 const interimText = ref("");
 const finalText = ref("");
@@ -63,6 +63,10 @@ const animationTimer = ref(null);
 
 const status = ref("");
 
+onUnmounted(() => {
+  speechRecognition.stop();
+  clearTimeout(animationTimer.value);
+});
 onMounted(() => {
   //check if browser supports speech recognition
   if (!("webkitSpeechRecognition" in window)) {
