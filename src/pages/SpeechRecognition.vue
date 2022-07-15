@@ -139,7 +139,7 @@ const showResults = ({ results, resultIndex, timeStamp }) => {
   // });
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .background {
   background-color: $dark;
   /* background-color: #00b7ff;
@@ -174,4 +174,11 @@ const showResults = ({ results, resultIndex, timeStamp }) => {
     transform: rotate(1turn);
   }
 } */
+:deep(.q-field) {
+  border-radius: 25px;
+  background: white;
+}
+:deep(.q-field__native) {
+  line-height: 1;
+}
 </style>

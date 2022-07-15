@@ -1,15 +1,16 @@
 <template>
-  <q-page class="relative background flex column items-center q-pt-xl page-padding">
-    <div class="flex" style="width:100%; flex-direction: row-reverse;">
-
+  <q-page
+    class="relative background flex column items-center q-pt-xl page-padding"
+  >
+    <div class="flex" style="width: 100%; flex-direction: row-reverse">
       <q-btn
-      icon="settings"
-      round
-      flat
-      class="text-white"
-      style=""
-      @click="showDialog"
-    />
+        icon="settings"
+        round
+        flat
+        class="text-white"
+        style=""
+        @click="showDialog"
+      />
     </div>
     <q-input
       v-model="text"
@@ -74,7 +75,7 @@ const $q = useQuasar();
 const $store = useStore();
 
 const savedTexts = computed(() => $store.state.savedTexts);
-const text = ref("");
+const text = ref("asdfasd\nsdfsdf\nsdf");
 
 onMounted(() => {
   // showDialog();
@@ -107,7 +108,7 @@ const showDialog = () => {
     .onDismiss(() => {});
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .background {
   background-color: $dark;
   // background-color: $secondary;
@@ -121,5 +122,13 @@ const showDialog = () => {
 input[type="textarea"] {
   font-size: 2em;
   line-height: 1.6;
+}
+
+:deep(.q-field) {
+  border-radius: 25px;
+  background: white;
+}
+:deep(.q-field__native) {
+  line-height: 1;
 }
 </style>
