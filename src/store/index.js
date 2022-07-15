@@ -83,18 +83,33 @@ export default store(function (/* { ssrContext } */) {
       },
 
       populateVoiceList({ commit }) {
-        speechSynthesis.onvoiceschanged = () => {
-          // console.log(speechSynthesis.getVoices());
+        const synth = window.speechSynthesis;
+        synth.addEventListener('voiceschanged', function() {
           const voices = speechSynthesis.getVoices().map((voice) => {
-            return Object.assign(voice, { label: voice.name });
-          });
-          commit("updateVoiceList", voices);
-          if (
-            typeof LocalStorage.getItem("voice") !== window.SpeechSynthesisVoice
-          ) {
-            commit("updateVoice", voices[0]);
-          }
-        };
+                return Object.assign(voice, { label: voice.name });
+              });
+              commit("updateVoiceList", voices);
+              if (
+                typeof LocalStorage.getItem("voice") !== window.SpeechSynthesisVoice
+              ) {
+                commit("updateVoice", voices[0]);
+              }
+        });
+        console.log('hii')
+        console.log(speechSynthesis)
+        // window.speechSynthesis.onvoiceschanged = () => {
+        //  console.log('byeee')
+        //   // console.log(speechSynthesis.getVoices());
+        //   const voices = speechSynthesis.getVoices().map((voice) => {
+        //     return Object.assign(voice, { label: voice.name });
+        //   });
+        //   commit("updateVoiceList", voices);
+        //   if (
+        //     typeof LocalStorage.getItem("voice") !== window.SpeechSynthesisVoice
+        //   ) {
+        //     commit("updateVoice", voices[0]);
+        //   }
+        // };
 
         // setTimeout(() => {
         //   state.voices = speechSynthesis.getVoices();
