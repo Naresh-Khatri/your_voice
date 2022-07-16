@@ -84,8 +84,9 @@ export default store(function (/* { ssrContext } */) {
 
       populateVoiceList({ commit }) {
         const synth = window.speechSynthesis;
+        synth.getVoices()
         synth.addEventListener('voiceschanged', function() {
-          const voices = speechSynthesis.getVoices().map((voice) => {
+          const voices = synth.getVoices().map((voice) => {
                 return Object.assign(voice, { label: voice.name });
               });
               commit("updateVoiceList", voices);
