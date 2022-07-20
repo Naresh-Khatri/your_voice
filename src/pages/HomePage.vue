@@ -75,7 +75,7 @@ const $q = useQuasar();
 const $store = useStore();
 
 const savedTexts = computed(() => $store.state.savedTexts);
-const text = ref("asdfasd\nsdfsdf\nsdf");
+const text = ref("");
 
 onMounted(() => {
   // showDialog();
@@ -125,10 +125,10 @@ input[type="textarea"] {
 }
 
 :deep(.q-field) {
-  border-radius: 25px;
-  background: white;
+border-radius: 25px;
+background: white;
 }
 :deep(.q-field__native) {
-  line-height: 1;
+line-height: 1;
 }
 </style>
