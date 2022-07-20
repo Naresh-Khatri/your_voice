@@ -1,7 +1,0 @@
-{
-  "appId": "org.project.your_voice.app",
-  "appName": "Your Voice",
-  "bundledWebRuntime": false,
-  "npmClient": "yarn",
-  "webDir": "www"
-}
